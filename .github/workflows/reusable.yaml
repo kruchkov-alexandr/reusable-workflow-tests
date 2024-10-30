@@ -38,13 +38,22 @@ jobs:
           name: Format build args
           id: build-args
           run: |
-            formatted_args=""
-            while IFS= read -r line || [ -n "$line" ]; do
-              if [ ! -z "$line" ]; then
-                evaluated_line=$(eval echo "$line")
-                formatted_args="${formatted_args}${evaluated_line}"$'\n'
-              fi
-            done <<< "${{ inputs.docker-args }}"
+            echo "Input docker-args:"
+            echo "${{ inputs.docker-args }}"
+
+            echo "Current environment variables:"
+            env
+
+            # Создаем временный файл для аргументов
+            echo "${{ inputs.docker-args }}" > /tmp/build-args.txt
+
+            # Используем envsubst для безопасной подстановки переменных
+            formatted_args=$(envsubst < /tmp/build-args.txt)
+
+            echo "Formatted arguments:"
+            echo "$formatted_args"
+
+            # Сохраняем в output
             echo "FORMATTED_ARGS<<EOF" >> $GITHUB_OUTPUT
             echo "$formatted_args" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT

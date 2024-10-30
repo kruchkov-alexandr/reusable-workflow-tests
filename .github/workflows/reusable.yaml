@@ -62,8 +62,8 @@ jobs:
             push: false
             load: true
             tags: ${{ github.run_id }}
-            build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ steps.build-args.outputs.FORMATTED_ARGS }}
-            # build-args: ${{ steps.build-args.outputs.FORMATTED_ARGS }}
+            # build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ steps.build-args.outputs.FORMATTED_ARGS }}
+            build-args: ${{ steps.build-args.outputs.FORMATTED_ARGS }}
         -
           name: run docker image with command cat /tmp/variable.txt
           run: |

@@ -1,0 +1,21 @@
+name: input-env
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: 1
+    runs-on: ubuntu-latest
+    steps:
+    - name: 1
+      uses: actions/checkout@main
+
+    - name: 2
+      uses: ./.github/actions/reuse
+      with:
+        docker-args: |
+          ENVIRONMENT=${{ env.ENVIRONMENT }}
+

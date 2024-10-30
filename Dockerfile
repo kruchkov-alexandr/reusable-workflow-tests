@@ -1,0 +1,4 @@
+FROM alpine
+ARG VARIABLE
+RUN echo $VARIABLE
+

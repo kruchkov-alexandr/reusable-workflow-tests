@@ -41,6 +41,7 @@ jobs:
           with:
             context: .
             push: false
+            load: true
             tags: ${{ github.run_id }}
             build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
         -

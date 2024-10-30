@@ -33,6 +33,23 @@ jobs:
           run: |
             echo ${{ inputs.docker-args }}
 
+
+        -
+          name: Format build args
+          id: build-args
+          run: |
+            formatted_args=""
+            while IFS= read -r line || [ -n "$line" ]; do
+              if [ ! -z "$line" ]; then
+                evaluated_line=$(eval echo "$line")
+                formatted_args="${formatted_args}${evaluated_line}"$'\n'
+              fi
+            done <<< "${{ inputs.docker-args }}"
+            echo "FORMATTED_ARGS<<EOF" >> $GITHUB_OUTPUT
+            echo "$formatted_args" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+
+
         - name: Set up Docker Buildx
           uses: docker/setup-buildx-action@v3
         -
@@ -43,7 +60,8 @@ jobs:
             push: false
             load: true
             tags: ${{ github.run_id }}
-            build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
+            # build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
+            build-args: ${{ steps.build-args.outputs.FORMATTED_ARGS }}
         -
           name: run docker image with command cat /tmp/variable.txt
           run: |

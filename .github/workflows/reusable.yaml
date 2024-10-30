@@ -49,6 +49,7 @@ jobs:
             echo "$formatted_args"
             echo "FORMATTED_ARGS<<EOF" >> $GITHUB_OUTPUT
             echo "$formatted_args" >> $GITHUB_OUTPUT
+            echo ENVIRONMENT=${{ env.ENVIRONMENT }} >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
 
 
@@ -62,8 +63,8 @@ jobs:
             push: false
             load: true
             tags: ${{ github.run_id }}
-            build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
-            # build-args: ${{ steps.build-args.outputs.FORMATTED_ARGS }}
+            # build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
+            build-args: ${{ steps.build-args.outputs.FORMATTED_ARGS }}
         -
           name: run docker image with command cat /tmp/variable.txt
           run: |

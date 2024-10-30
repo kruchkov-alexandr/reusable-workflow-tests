@@ -10,4 +10,4 @@ jobs:
     uses: ./.github/workflows/reusable.yaml
     with:
       docker-args: |
-        ENVIRONMENT=${ENVIRONMENT}
+        VARIABLE=${VARIABLE}

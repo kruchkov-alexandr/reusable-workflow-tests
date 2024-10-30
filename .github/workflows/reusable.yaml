@@ -1,0 +1,44 @@
+name: test
+on:
+    workflow_call:
+        inputs:
+          docker-args:
+            description: 'Docker build arguments'
+            required: false
+            type: string
+jobs:
+  deploy-template:
+    runs-on: ubuntu-latest
+    steps:
+        -
+          name: Checkout Repository
+          uses: actions/checkout@v2
+        -
+          name: Set environment variables
+          continue-on-error: true
+          run: |
+            echo "VARIABLE=PIZDA" >> $GITHUB_ENV
+
+        -
+          name: check variables in env
+          run: |
+            echo $VARIABLE
+
+        - name: check variables in env.context
+          run: |
+            echo ${{ env.VARIABLE }}
+
+        - name: check variable in input
+          run: |
+            echo ${{ inputs.docker-args }}
+
+        # - name: Set up Docker Buildx
+        #   uses: docker/setup-buildx-action@v3
+        # -
+        #   name: Docker Build
+        #   uses: docker/build-push-action@v5
+        #   with:
+        #     context: .
+        #     push: false
+        #     tags: ${{ github.run_id }}
+        #     build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}

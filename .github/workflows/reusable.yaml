@@ -43,3 +43,7 @@ jobs:
             push: false
             tags: ${{ github.run_id }}
             build-args: ENVIRONMENT=${{ env.ENVIRONMENT }} ${{ inputs.docker-args }}
+        -
+          name: run docker image with command cat /tmp/variable.txt
+          run: |
+            docker run ${{ github.run_id }} cat /tmp/variable.txt

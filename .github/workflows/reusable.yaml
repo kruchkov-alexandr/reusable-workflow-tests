@@ -43,17 +43,10 @@ jobs:
 
             echo "Current environment variables:"
             env
-
-            # Создаем временный файл для аргументов
             echo "${{ inputs.docker-args }}" > /tmp/build-args.txt
-
-            # Используем envsubst для безопасной подстановки переменных
             formatted_args=$(envsubst < /tmp/build-args.txt)
-
             echo "Formatted arguments:"
             echo "$formatted_args"
-
-            # Сохраняем в output
             echo "FORMATTED_ARGS<<EOF" >> $GITHUB_OUTPUT
             echo "$formatted_args" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
